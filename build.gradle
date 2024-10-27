@@ -1,0 +1,68 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
+plugins {
+    id 'java-library'
+    id 'com.gradleup.shadow' version '8.3.0'
+}
+
+group = 'dev.vansen'
+version = '1.0.0'
+
+ext {
+    paperAPI = "1.21.1-R0.1-SNAPSHOT"
+    schedulerUtils = "1.0.4"
+    configUtils = "1.0.2"
+    inventoryUtils = "1.0.7"
+    commandUtils = "1.1.2"
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.papermc.io/repository/maven-public/" }
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    compileOnly "io.papermc.paper:paper-api:$paperAPI"
+    implementation "com.github.vansencool:SchedulerUtils:$schedulerUtils"
+    implementation "com.github.vansencool:ConfigUtils:$configUtils"
+    implementation "com.github.vansencool:InventoryUtils:$inventoryUtils"
+    implementation "com.github.vansencool:CommandUtils:$commandUtils"
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+    withSourcesJar()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release.set(21)
+}
+
+tasks.processResources {
+    def props = [version: version]
+    inputs.properties(props)
+    filteringCharset = 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand(props)
+    }
+}
+
+tasks.named('shadowJar', ShadowJar) {
+    archiveClassifier.set('')
+    mergeServiceFiles()
+    configurations = [project.configurations.runtimeClasspath]
+    relocate 'dev.vansen.scheduleutils', 'dev.vansen.libs.schedulerutils'
+    relocate 'dev.vansen.configutils', 'dev.vansen.libs.configutils'
+    relocate 'dev.vansen.inventoryutils', 'dev.vansen.libs.inventoryutils'
+    relocate 'dev.vansen.commandutils', 'dev.vansen.libs.commandutils'
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
+    destinationDirectory.set(file"D:\\vansen\\Test servers\\1.21\\plugins")
+}
+
+tasks.build {
+    dependsOn(tasks.shadowJar)
+}

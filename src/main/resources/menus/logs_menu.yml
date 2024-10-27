@@ -1,0 +1,12 @@
+menu:
+  name: "Logs of <player>"
+  rows: 6
+
+items:
+  join_item:
+    name: "<color:#c9ffff><timestamp> - Join"
+    material: PAPER
+  leave_item:
+    name: "<color:#c9ffff><timestamp> - Leave"
+    slots: [ 11, 12, 13, 14, 15, 16 ]
+    material: PAPER

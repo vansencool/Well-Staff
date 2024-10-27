@@ -1,0 +1,4 @@
+name: WellStaff
+version: '${version}'
+main: dev.vansen.wellstaff.WellStaff
+api-version: '1.16'

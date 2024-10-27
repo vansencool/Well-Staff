@@ -1,0 +1,67 @@
+Staff:
+  messages:
+    players_only:
+      send: true
+      types:
+        - message
+      msg: "<color:#ff576d>Only player can use this command!"
+    player_not_found:
+      send: true
+      types:
+        - action_bar
+      msg: "<color:#ff576d>Couldn't find any player with that name!"
+    chat_enabled:
+      send: true
+      types:
+        - action_bar
+      msg: "<color:#78ff9c>Chat is now unlocked!"
+    chat_disabled:
+      send: true
+      types:
+        - action_bar
+      msg: "<color:#78ff9c>Chat is now locked!"
+    chat_is_locked:
+      send: true
+      types:
+        - action_bar
+      msg: "<color:#ff576d>Chat is currently locked!"
+    command_spy_enabled:
+      send: true
+      types:
+        - action_bar
+      msg: "<color:#78ff9c>Command spy is now enabled!"
+    command_spy_disabled:
+      send: true
+      types:
+        - action_bar
+      msg: "<color:#78ff9c>Command spy is now disabled!"
+    command_spy:
+      send: true
+      types:
+        - message
+      msg: "<color:#abe2ff>Command Spy -> <player>: <message>"
+    flight_disabled:
+      send: true
+      types:
+        - action_bar
+      msg: "<color:#78ff9c>Flight is now disabled!"
+    flight_enabled:
+      send: true
+      types:
+        - action_bar
+      msg: "<color:#78ff9c>Flight is now enabled!"
+    cant_invsee_self:
+      send: true
+      types:
+        - action_bar
+      msg: "<color:#ff576d>You can't invsee yourself!"
+      sounds:
+        send: true
+        sound: "ENTITY_EXPERIENCE_ORB_PICKUP"
+        volume: 1.0
+        pitch: 1.0
+    logs_not_found:
+      send: true
+      types:
+        - action_bar
+      msg: "<color:#ff576d>Couldn't find any logs of <player>!"

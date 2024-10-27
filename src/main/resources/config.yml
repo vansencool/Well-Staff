@@ -1,0 +1,10 @@
+Staff:
+  configuration:
+    storage: YAML # Valid values: YAML, MYSQL
+    mysql: # Only used if storage is MYSQL
+      host: localhost
+      port: 3306
+      database: wellstaff
+      user: root
+      password: password
+    debug: false # Debugging, usually not meant to be enabled in production servers
