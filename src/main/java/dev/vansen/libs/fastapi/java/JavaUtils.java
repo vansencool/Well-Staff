@@ -19,7 +19,7 @@ public final class JavaUtils {
     private JavaUtils() {
     }
 
-    /*
+    /**
      * Performs a null check and executes the provided task if the object is not null.
      *
      * @param obj  The object to check.
@@ -31,7 +31,30 @@ public final class JavaUtils {
         }
     }
 
-    /*
+    /**
+     * Performs a null check and executes the provided task if the object is not null.
+     *
+     * @param obj   The object to check.
+     * @param task  The task to execute if the object is not null.
+     * @param task2 The task to execute if the object is null.
+     */
+    public static void taskIfNotNull(@Nullable Object obj, @NotNull Runnable task, @NotNull Runnable task2) {
+        if (obj != null) {
+            task.run();
+        } else {
+            task2.run();
+        }
+    }
+
+    public static <T> void taskIfNotNull(@Nullable T param, @NotNull Consumer<T> task, @NotNull Runnable task2) {
+        if (param != null) {
+            task.accept(param);
+        } else {
+            task2.run();
+        }
+    }
+
+    /**
      * Checks if an object is null and returns a default value if it is.
      *
      * @param obj          The object to check.
@@ -43,28 +66,7 @@ public final class JavaUtils {
         return obj != null ? obj : defaultValue;
     }
 
-    /*
-     * Returns an empty string if the input string is null.
-     *
-     * @param str The string to check.
-     * @return An empty string if the input string is null; otherwise, the input string.
-     */
-    public static String defaultIfNull(@Nullable String str, @Nullable String defaultValue) {
-        return str != null ? str : defaultValue;
-    }
-
-    /*
-     * Returns the default value if the input boolean is false.
-     *
-     * @param value        The boolean value to check.
-     * @param defaultValue The default value to return if the boolean is false.
-     * @return The default value if the boolean is false; otherwise, the boolean value.
-     */
-    public static boolean defaultIfFalse(boolean value, boolean defaultValue) {
-        return value ? value : defaultValue;
-    }
-
-    /*
+    /**
      * Returns the default value if the input integer is negative.
      *
      * @param value        The integer value to check.
@@ -75,7 +77,7 @@ public final class JavaUtils {
         return value >= 0 ? value : defaultValue;
     }
 
-    /*
+    /**
      * Checks if a string is null or empty.
      *
      * @param str The string to check.
@@ -85,7 +87,7 @@ public final class JavaUtils {
         return str == null || str.isEmpty();
     }
 
-    /*
+    /**
      * Checks if a collection is null or empty.
      *
      * @param collection The collection to check.
@@ -96,7 +98,7 @@ public final class JavaUtils {
         return collection == null || collection.isEmpty();
     }
 
-    /*
+    /**
      * Checks if a map is null or empty.
      *
      * @param map The map to check.
@@ -108,7 +110,7 @@ public final class JavaUtils {
         return map == null || map.isEmpty();
     }
 
-    /*
+    /**
      * Checks if an array is null or empty.
      *
      * @param array The array to check.
@@ -119,7 +121,7 @@ public final class JavaUtils {
         return array == null || array.length == 0;
     }
 
-    /*
+    /**
      * Safely casts an object to the specified type.
      *
      * @param obj   The object to cast.
@@ -132,7 +134,7 @@ public final class JavaUtils {
         return clazz.isInstance(obj) ? clazz.cast(obj) : null;
     }
 
-    /*
+    /**
      * Executes a task with a nullable parameter if the parameter is not null.
      *
      * @param param The parameter to check.
@@ -145,7 +147,7 @@ public final class JavaUtils {
         }
     }
 
-    /*
+    /**
      * Executes a task if the parameter is true.
      *
      * @param param The parameter to check.
@@ -157,7 +159,7 @@ public final class JavaUtils {
         }
     }
 
-    /*
+    /**
      * Executes a task if the parameter is false.
      *
      * @param param The parameter to check.

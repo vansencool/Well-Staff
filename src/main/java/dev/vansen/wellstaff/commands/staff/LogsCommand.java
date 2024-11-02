@@ -3,6 +3,7 @@ package dev.vansen.wellstaff.commands.staff;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import dev.vansen.commandutils.CommandUtils;
 import dev.vansen.commandutils.argument.CommandArgument;
+import dev.vansen.commandutils.command.CommandWrapper;
 import dev.vansen.commandutils.info.CommandInfo;
 import dev.vansen.commandutils.permission.CommandPermission;
 import dev.vansen.configutils.Configer;
@@ -10,7 +11,9 @@ import dev.vansen.inventoryutils.inventory.FairInventory;
 import dev.vansen.inventoryutils.inventory.InventorySize;
 import dev.vansen.inventoryutils.item.ItemUtils;
 import dev.vansen.scheduleutils.SchedulerUtils;
+import dev.vansen.utility.annotations.Init;
 import dev.vansen.utility.command.Command;
+import dev.vansen.utility.command.CommandRegistrar;
 import dev.vansen.utility.item.ConfigItem;
 import dev.vansen.welldevelopment.Holder;
 import dev.vansen.wellstaff.message.Messager;
@@ -25,13 +28,14 @@ import java.util.Map;
 public final class LogsCommand implements Command {
 
     @Override
+    @Init
     public void register() {
-        CommandUtils.newCommand("logs")
+        CommandRegistrar.register(CommandUtils.newCommand("logs")
                 .info(CommandInfo.info()
                         .permission(CommandPermission.permission("wellstaff.logs")))
                 .argument(CommandArgument.string("player")
                         .defaultExecute(context -> {
-                            context.throwAndRunIfNot(c -> c.isPlayer(), () -> {
+                            context.throwAndRunIfNot(CommandWrapper::isPlayer, () -> {
                                 Messager.sender()
                                         .who(context.player())
                                         .send("players_only");
@@ -60,7 +64,6 @@ public final class LogsCommand implements Command {
                                         menu.show(context.player());
                                     })
                                     .run()));
-                        }))
-                .build();
+                        })), "logs");
     }
 }

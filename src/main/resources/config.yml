@@ -8,3 +8,9 @@ Staff:
       user: root
       password: password
     debug: false # Debugging, usually not meant to be enabled in production servers
+    monitor:
+      # TPS Values
+      # valid values: "high", "lower", "equal", "equalorhigher", "equalorlower"
+      tps_good: "equalorhigher_19.99"
+      tps_mid: "equalorlower_19"
+      tps_low: "equalorlower_18"

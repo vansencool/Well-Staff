@@ -1,12 +1,15 @@
-package dev.vansen.wellstaff.commands.staff;
+package dev.vansen.wellstaff.commands.general;
 
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import dev.vansen.commandutils.CommandUtils;
 import dev.vansen.commandutils.argument.Argument;
 import dev.vansen.commandutils.argument.CommandArgument;
 import dev.vansen.commandutils.command.CommandWrapper;
+import dev.vansen.commandutils.command.ExecutableSender;
 import dev.vansen.commandutils.info.CommandInfo;
 import dev.vansen.commandutils.permission.CommandPermission;
+import dev.vansen.commandutils.sender.SenderTypes;
+import dev.vansen.scheduleutils.SchedulerUtils;
 import dev.vansen.utility.annotations.Init;
 import dev.vansen.utility.command.Command;
 import dev.vansen.utility.command.CommandRegistrar;
@@ -14,43 +17,38 @@ import dev.vansen.utility.player.PlayerUtils;
 import dev.vansen.wellstaff.message.Messager;
 
 @SuppressWarnings("all")
-public final class FlyCommand implements Command {
+public class ServerMonitorCommand implements Command {
 
     @Override
     @Init
     public void register() {
-        CommandRegistrar.register(CommandUtils.newCommand("fly")
+        CommandRegistrar.register(CommandUtils.command("servermonitor")
                 .info(CommandInfo.info()
-                        .aliases("flymode")
-                        .permission(CommandPermission.permission("wellstaff.fly")))
+                        .permission(CommandPermission.permission("wellstaff.servermonitor"))
+                        .aliases("sm"))
                 .defaultExecute(context -> {
-                    context.throwAndRunIfNot(CommandWrapper::isPlayer, () -> {
-                        Messager.sender()
-                                .who(context.sender())
-                                .send("players_only");
-                    });
-                    if (context.player().getAllowFlight()) {
+                    if (SchedulerUtils.cancel().exists(context.player().getUniqueId() + "_monitoring")) {
                         PlayerUtils.player(context.player())
-                                .unfly();
+                                .stopMonitoring();
                     } else {
                         PlayerUtils.player(context.player())
-                                .fly();
+                                .startMonitoring();
                     }
-                })
+                }, ExecutableSender.types(SenderTypes.PLAYER))
                 .argument(CommandArgument.of(new Argument("enable", BoolArgumentType.bool()))
                         .defaultExecute(context -> {
-                            context.throwAndRunIfNot(c -> c.isPlayer(), () -> {
+                            context.throwAndRunIfNot(CommandWrapper::isPlayer, () -> {
                                 Messager.sender()
-                                        .who(context.sender())
+                                        .who(context.player())
                                         .send("players_only");
                             });
                             if (context.argBoolean("enable")) {
                                 PlayerUtils.player(context.player())
-                                        .fly();
+                                        .stopMonitoring();
                             } else {
                                 PlayerUtils.player(context.player())
-                                        .unfly();
+                                        .startMonitoring();
                             }
-                        })), "fly");
+                        })), "servermonitor");
     }
 }

@@ -65,3 +65,33 @@ Staff:
       types:
         - action_bar
       msg: "<color:#ff576d>Couldn't find any logs of <player>!"
+    game_mode_set:
+      send: true
+      types:
+        - action_bar
+      msg: "<color:#78ff9c>Game mode set to <game_mode>"
+    monitoring_started:
+      send: true
+      types:
+        - action_bar
+      msg: "<color:#78ff9c>Monitoring started"
+    monitoring_stopped:
+      send: true
+      types:
+        - action_bar
+      msg: "<color:#78ff9c>Monitoring stopped"
+    player_executed:
+      send: true
+      types:
+        - action_bar
+      msg: "<color:#78ff9c>Player <player> executed <command>"
+    console_command_executed:
+      send: true
+      types:
+        - action_bar
+      msg: "<color:#78ff9c>Console executed <command> <amount> times"
+    player_command_executed:
+      send: true
+      types:
+        - action_bar
+      msg: "<color:#78ff9c>Player <player> executed <command> <amount> times"

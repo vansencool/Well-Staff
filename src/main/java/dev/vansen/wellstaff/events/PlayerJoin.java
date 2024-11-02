@@ -1,6 +1,7 @@
 package dev.vansen.wellstaff.events;
 
 import dev.vansen.configutils.Configer;
+import dev.vansen.utility.annotations.Register;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Register
 public final class PlayerJoin implements Listener {
 
     @EventHandler

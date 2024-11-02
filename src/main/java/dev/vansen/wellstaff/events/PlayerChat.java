@@ -1,5 +1,6 @@
 package dev.vansen.wellstaff.events;
 
+import dev.vansen.utility.annotations.Register;
 import dev.vansen.wellstaff.message.Messager;
 import dev.vansen.wellstaff.values.impl.ChatValue;
 import io.papermc.paper.event.player.AsyncChatEvent;
@@ -9,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.jetbrains.annotations.NotNull;
 
+@Register
 @SuppressWarnings("deprecation")
 public final class PlayerChat implements Listener {
 

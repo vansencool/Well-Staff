@@ -1,5 +1,6 @@
 package dev.vansen.wellstaff.events;
 
+import dev.vansen.utility.annotations.Register;
 import dev.vansen.utility.debugging.Debug;
 import dev.vansen.wellstaff.message.Messager;
 import dev.vansen.wellstaff.values.impl.CommandSpyValue;
@@ -9,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.jetbrains.annotations.NotNull;
 
+@Register
 public final class PlayerCommand implements Listener {
 
     @EventHandler
@@ -17,6 +19,7 @@ public final class PlayerCommand implements Listener {
         Bukkit.getOnlinePlayers()
                 .stream()
                 .filter(player -> CommandSpyValue.commandSpy.containsKey(player) && CommandSpyValue.commandSpy.get(player))
+                .filter(player -> player != event.getPlayer())
                 .forEach(player -> Messager.sender()
                         .who(player)
                         .send("command_spy", "<message>", event.getMessage(), "<player>", event.getPlayer().getName()));

@@ -1,6 +1,7 @@
 package dev.vansen.wellstaff.events;
 
 import dev.vansen.scheduleutils.SchedulerUtils;
+import dev.vansen.utility.annotations.Register;
 import dev.vansen.wellstaff.commands.staff.InvseeCommand;
 import dev.vansen.wellstaff.values.impl.PausedValue;
 import org.bukkit.event.EventHandler;
@@ -8,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.jetbrains.annotations.NotNull;
 
+@Register
 public final class PlayerDrop implements Listener {
 
     @EventHandler

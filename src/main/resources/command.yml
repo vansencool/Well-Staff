@@ -1,0 +1,30 @@
+vanish:
+  enabled: true
+chat:
+  enabled: true
+commandspy:
+  enabled: true
+fly:
+  enabled: true
+invsee:
+  enabled: true
+logs:
+  enabled: true
+enderchest:
+  enabled: true
+gamemode:
+  enabled: true
+gmc:
+  enabled: true
+gms:
+  enabled: true
+gmsp:
+  enabled: true
+gma:
+  enabled: true
+servermonitor:
+  enabled: true
+executeforrandom:
+  enabled: true
+sudo:
+  enabled: true

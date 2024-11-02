@@ -19,12 +19,12 @@ public final class Debug {
     public static void debug(@NotNull String... debugs) {
         if (!debug) return;
         Arrays.stream(debugs)
-                .forEach(Holder.get().getComponentLogger()::debug);
+                .forEach(Holder.get().getComponentLogger()::info);
     }
 
     public static void debug(@NotNull Component... debugs) {
         if (!debug) return;
         Arrays.stream(debugs)
-                .forEach(Holder.get().getComponentLogger()::debug);
+                .forEach(Holder.get().getComponentLogger()::info);
     }
 }

@@ -2,15 +2,19 @@ package dev.vansen.wellstaff.commands.staff;
 
 import dev.vansen.commandutils.CommandUtils;
 import dev.vansen.commandutils.argument.CommandArgument;
+import dev.vansen.commandutils.command.CommandWrapper;
 import dev.vansen.commandutils.info.CommandInfo;
 import dev.vansen.commandutils.permission.CommandPermission;
 import dev.vansen.inventoryutils.inventory.FairInventory;
 import dev.vansen.inventoryutils.inventory.InventorySize;
 import dev.vansen.scheduleutils.SchedulerUtils;
+import dev.vansen.utility.annotations.Init;
 import dev.vansen.utility.command.Command;
+import dev.vansen.utility.command.CommandRegistrar;
+import dev.vansen.utility.command.arguments.PlayerArgumentType;
 import dev.vansen.wellstaff.message.Messager;
 import dev.vansen.wellstaff.values.impl.PausedValue;
-import org.bukkit.Bukkit;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -23,25 +27,21 @@ public final class InvseeCommand implements Command {
     public static Set<Player> invsee = new HashSet<>();
 
     @Override
+    @Init
     public void register() {
-        CommandUtils.newCommand("invsee")
+        CommandRegistrar.register(CommandUtils.newCommand("invsee")
                 .info(CommandInfo.info()
                         .permission(CommandPermission.permission("wellstaff.invsee"))
                         .aliases("ic", "is"))
-                .argument(CommandArgument.string("player")
+                .argument(CommandArgument.of("player", new PlayerArgumentType("See the inventory of <player>", TextColor.fromHexString("#d4ffe4")))
                         .defaultExecute(context -> {
-                            if (!context.isPlayer()) {
+                            context.throwAndRunIfNot(CommandWrapper::isPlayer, () -> {
                                 Messager.sender()
                                         .who(context.sender())
                                         .send("players_only");
                                 return;
-                            }
-                            Player target = Bukkit.getPlayer(context.argString("player"));
-                            if (target == null) {
-                                Messager.sender()
-                                        .who(context.player())
-                                        .send("player_not_found", "<player>", context.argString("player"));
-                            }
+                            });
+                            Player target = context.arg("player", Player.class);
                             if (target.getName().equals(context.player().getName())) {
                                 Messager.sender()
                                         .who(context.player())
@@ -105,12 +105,6 @@ public final class InvseeCommand implements Command {
                                     .repeats(Duration.ofMillis(800))
                                     .repeatsForever()
                                     .run();
-                        }).completion((context, wrapper) -> {
-                            Bukkit.getOnlinePlayers()
-                                    .parallelStream()
-                                    .forEach(player -> wrapper.suggest(player.getName(), "See the inventory of " + player.getName()));
-                            return wrapper.build();
-                        }))
-                .register();
+                        })), "invsee");
     }
 }

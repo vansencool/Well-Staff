@@ -13,11 +13,10 @@ ext {
     schedulerUtils = "1.0.4"
     configUtils = "1.0.2"
     inventoryUtils = "1.0.7"
-    commandUtils = "1.1.2"
+    commandUtils = "1.1.4"
 }
 
 repositories {
-    mavenCentral()
     maven { url "https://repo.papermc.io/repository/maven-public/" }
     maven { url 'https://jitpack.io' }
 }
@@ -60,7 +59,7 @@ tasks.named('shadowJar', ShadowJar) {
     relocate 'dev.vansen.inventoryutils', 'dev.vansen.libs.inventoryutils'
     relocate 'dev.vansen.commandutils', 'dev.vansen.libs.commandutils'
     exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
-    destinationDirectory.set(file"D:\\vansen\\Test servers\\1.21\\plugins")
+    destinationDirectory.set(file "D:\\vansen\\Test servers\\1.21\\plugins")
 }
 
 tasks.build {
