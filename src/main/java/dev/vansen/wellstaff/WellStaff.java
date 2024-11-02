@@ -29,7 +29,6 @@ public final class WellStaff extends WellDevelopment {
 
     @Override
     protected void start() {
-        System.out.println(getConfig().getString("Staff.configuration.debug"));
         Debug.debug(getConfig().getBoolean("Staff.configuration.debug"));
         Registrar.register();
     }
