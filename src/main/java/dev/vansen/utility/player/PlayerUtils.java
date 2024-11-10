@@ -3,6 +3,8 @@ package dev.vansen.utility.player;
 import dev.vansen.libs.fastapi.java.JavaUtils;
 import dev.vansen.scheduleutils.SchedulerUtils;
 import dev.vansen.wellstaff.message.Messager;
+import dev.vansen.wellstaff.message.bossbar.BossBarManager;
+import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
@@ -64,17 +66,24 @@ public final class PlayerUtils {
         player.setExhaustion(20);
         player.setSaturation(20);
         player.setGameMode(GameMode.CREATIVE);
+
+        BossBarManager.builder()
+                .player(player)
+                .title(generate())
+                .color(color())
+                .overlay(BossBar.Overlay.NOTCHED_20)
+                .progress(progress())
+                .flag(BossBar.Flag.PLAY_BOSS_MUSIC)
+                .create();
+
         SchedulerUtils.get(true)
                 .repeater()
-                .task(() -> player.sendActionBar(Component.text(
-                                String.format("TPS: %.2f | MSPT: %.2f", Bukkit.getTPS()[0] > 20.00 ? 20.00 : Bukkit.getTPS()[0], Bukkit.getAverageTickTime()))
-                        .color(TextColor.fromHexString("#81ff85"))
-                ))
+                .task(this::updateBossBar)
                 .repeatsForever()
                 .repeats(Duration.ofMillis(700))
-                .delay(Duration.ofSeconds(1))
                 .uniqueId(player.getUniqueId() + "_monitoring")
                 .run();
+
         Messager.sender()
                 .who(player)
                 .send("monitoring_started");
@@ -87,9 +96,37 @@ public final class PlayerUtils {
         Messager.sender()
                 .who(player)
                 .send("monitoring_stopped");
+        BossBarManager.get(player)
+                .remove();
     }
 
-    public void staffMode() {
+    private void updateBossBar() {
+        BossBarManager.get(player)
+                .title(generate())
+                .color(color())
+                .progress(progress());
+    }
 
+    private Component generate() {
+        return Component.text(String.format("TPS: %.2f  MSPT: %.2f  Ping: %dms", Math.min(20.0, Bukkit.getTPS()[0]), Bukkit.getAverageTickTime(), player.getPing()))
+                .color(TextColor.color(statusColor()));
+    }
+
+    private BossBar.Color color() {
+        if (Math.min(20.0, Bukkit.getTPS()[0]) >= 19 && Bukkit.getAverageTickTime() <= 30)
+            return BossBar.Color.GREEN; // Good
+        else if (Math.min(20.0, Bukkit.getTPS()[0]) >= 17 && Bukkit.getAverageTickTime() <= 50)
+            return BossBar.Color.YELLOW; // Mid
+        return BossBar.Color.RED; // Bad
+    }
+
+    private float progress() {
+        return (float) Math.min(1.0, Math.max(0.1, (Bukkit.getAverageTickTime() / 60.0))); // some garbage math to make it look good :D
+    }
+
+    private int statusColor() {
+        if (Math.min(20.0, Bukkit.getTPS()[0]) >= 19 && Bukkit.getAverageTickTime() <= 30) return 0x81FF85; // Green
+        if (Math.min(20.0, Bukkit.getTPS()[0]) >= 17 && Bukkit.getAverageTickTime() <= 50) return 0xFFF57F; // Yellow
+        return 0xFF7A7A; // Red
     }
 }

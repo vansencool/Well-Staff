@@ -9,8 +9,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 /*
- * A utility class to handle async and main-thread tasks, while calculating execution time
- * and ensuring the main thread is not blocked.
+ * A utility class to handle async and main-thread tasks at the same time.
  */
 @SuppressWarnings("unused")
 public final class Tasker<T> {
@@ -51,8 +50,7 @@ public final class Tasker<T> {
     }
 
     /*
-     * Calculates how long the async task took to execute and then ensures
-     * the main-thread task runs without blocking the main thread.
+     * Executes the async and main-thread tasks.
      */
     public void execute() {
         CompletableFuture.supplyAsync(() -> {

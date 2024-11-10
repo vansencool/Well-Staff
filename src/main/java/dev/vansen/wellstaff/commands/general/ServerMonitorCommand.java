@@ -4,7 +4,6 @@ import com.mojang.brigadier.arguments.BoolArgumentType;
 import dev.vansen.commandutils.CommandUtils;
 import dev.vansen.commandutils.argument.Argument;
 import dev.vansen.commandutils.argument.CommandArgument;
-import dev.vansen.commandutils.command.CommandWrapper;
 import dev.vansen.commandutils.command.ExecutableSender;
 import dev.vansen.commandutils.info.CommandInfo;
 import dev.vansen.commandutils.permission.CommandPermission;
@@ -37,11 +36,9 @@ public class ServerMonitorCommand implements Command {
                 }, ExecutableSender.types(SenderTypes.PLAYER))
                 .argument(CommandArgument.of(new Argument("enable", BoolArgumentType.bool()))
                         .defaultExecute(context -> {
-                            context.throwAndRunIfNot(CommandWrapper::isPlayer, () -> {
-                                Messager.sender()
-                                        .who(context.player())
-                                        .send("players_only");
-                            });
+                            Messager.sender()
+                                    .who(context.sender())
+                                    .player();
                             if (context.argBoolean("enable")) {
                                 PlayerUtils.player(context.player())
                                         .stopMonitoring();

@@ -7,6 +7,12 @@ import org.jetbrains.annotations.NotNull;
 
 public final class SoundSource {
 
+    /**
+     * Converts a string to a {@link Sound.Source}
+     *
+     * @param source The source of the sound
+     * @return The sound source
+     */
     public static Sound.Source fromString(@NotNull String source) {
         try {
             return Sound.Source.valueOf(source.toUpperCase());

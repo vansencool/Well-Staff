@@ -1,5 +1,6 @@
 package dev.vansen.wellstaff.message;
 
+import dev.vansen.commandutils.exceptions.CmdException;
 import dev.vansen.configutils.Configer;
 import dev.vansen.libs.fastapi.text.Replacer;
 import dev.vansen.utility.debugging.Debug;
@@ -15,6 +16,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -34,6 +36,14 @@ public final class Messager {
         return this;
     }
 
+    public void player() {
+        if (!(sender instanceof Player)) {
+            send("players_only");
+            throw new CmdException((Component) null, null);
+        }
+    }
+
+    // Some ugly code here... :3
     public void send(@NotNull String key, String... placeholders) {
         Debug.debug(Component.text(
                 "Sending message: " + key
@@ -63,22 +73,22 @@ public final class Messager {
                         for (String type : types) {
                             switch (type.toLowerCase()) {
                                 case "action_bar", "action bar", "actionbar" -> {
-                                    if (!(sender instanceof Entity)) return;
-                                    Debug.debug(Component.text(
-                                            "Sending action bar message: " + key + " - " + message
-                                    ));
-                                    ActionBarSendEvent send = new ActionBarSendEvent(message);
-                                    Holder.getEventer().post(send);
-                                    Debug.debug(Component.text(
-                                            "Action bar event cancelled? - " + send.cancel()
-                                    ));
-                                    if (!send.cancel()) {
-                                        sender.sendActionBar(send.message());
-                                        Debug.debug(Component.text("Sent action bar message: " + key + " - " + message));
+                                    if (sender instanceof Entity entity) {
+                                        Debug.debug(Component.text(
+                                                "Sending action bar message: " + key + " - " + message
+                                        ));
+                                        ActionBarSendEvent send = new ActionBarSendEvent(message);
+                                        Holder.getEventer().post(send);
+                                        Debug.debug(Component.text(
+                                                "Action bar event cancelled? - " + send.cancel()
+                                        ));
+                                        if (!send.cancel()) {
+                                            entity.sendActionBar(send.message());
+                                            Debug.debug(Component.text("Sent action bar message: " + key + " - " + message));
+                                        }
                                     }
                                 }
                                 case "title" -> {
-                                    if (!(sender instanceof Entity)) return;
                                     Component title = MiniMessage.miniMessage().deserialize(config.getString("Staff.messages." + key + ".title.main"));
                                     Component subtitle = MiniMessage.miniMessage().deserialize(config.getString("Staff.messages." + key + ".title.subtitle"));
                                     long fadeIn = config.getInt("Staff.messages." + key + ".title.time.fade_in");
@@ -94,7 +104,7 @@ public final class Messager {
                                     ));
                                     if (!send.cancel()) {
                                         TitleSender.builder()
-                                                .who((Entity) sender)
+                                                .who(sender)
                                                 .title(send.title())
                                                 .subtitle(send.subtitle())
                                                 .fadeIn(send.fadeIn())
@@ -127,7 +137,6 @@ public final class Messager {
                         if (config.getBoolean("Staff.messages." + key + ".sounds.send", false)) {
                             try {
                                 Sound.sound(builder -> {
-                                    if (!(sender instanceof Entity)) return;
                                     Sound.Builder sound = builder.type(org.bukkit.Sound.valueOf(config.getString("Staff.messages." + key + ".sounds.sound").toUpperCase()))
                                             .volume((float) config.getDouble("Staff.messages." + key + ".sounds.volume", 1.0))
                                             .pitch((float) config.getDouble("Staff.messages." + key + ".sounds.pitch", 1.0))

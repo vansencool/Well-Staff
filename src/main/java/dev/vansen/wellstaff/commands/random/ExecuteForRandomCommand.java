@@ -2,7 +2,6 @@ package dev.vansen.wellstaff.commands.random;
 
 import dev.vansen.commandutils.CommandUtils;
 import dev.vansen.commandutils.argument.CommandArgument;
-import dev.vansen.commandutils.command.CommandWrapper;
 import dev.vansen.commandutils.info.CommandInfo;
 import dev.vansen.commandutils.permission.CommandPermission;
 import dev.vansen.utility.annotations.Init;
@@ -27,15 +26,10 @@ public class ExecuteForRandomCommand implements Command {
                         .aliases("efr"))
                 .argument(CommandArgument.of("command", CommandArgumentType.command(1))
                         .defaultExecute(context -> {
-                            context.throwAndRunIfNot(CommandWrapper::isPlayer, () -> {
-                                Messager.sender()
-                                        .who(context.sender())
-                                        .send("players_only");
-                            });
                             int random = new Random().nextInt(Bukkit.getOnlinePlayers().size());
                             ((Player) Bukkit.getOnlinePlayers().toArray()[random]).performCommand(context.argString("command"));
                             Messager.sender()
-                                    .who(context.player())
+                                    .who(context.sender())
                                     .send("player_executed", "<player>", ((Player) Bukkit.getOnlinePlayers().toArray()[random]).getName(), "<command>", context.argString("command"));
                         })), "executeforrandom");
     }

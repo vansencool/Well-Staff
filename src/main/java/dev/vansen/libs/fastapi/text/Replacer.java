@@ -23,7 +23,6 @@ public final class Replacer {
     private final String surroundWith;
     private final boolean wholeWord;
 
-    // Private constructor
     private Replacer(@NotNull String target, @NotNull String replacement, boolean ignoreCase, boolean replaceAll, boolean trim, boolean removeEmptyLines, int limit, boolean escapeSpecialChars, boolean prefixOnly, boolean suffixOnly, @NotNull String surroundWith, boolean wholeWord) {
         this.target = escapeSpecialChars ? Pattern.quote(target) : target;
         this.replacement = replacement;

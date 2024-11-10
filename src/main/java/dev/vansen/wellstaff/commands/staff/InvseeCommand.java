@@ -2,7 +2,6 @@ package dev.vansen.wellstaff.commands.staff;
 
 import dev.vansen.commandutils.CommandUtils;
 import dev.vansen.commandutils.argument.CommandArgument;
-import dev.vansen.commandutils.command.CommandWrapper;
 import dev.vansen.commandutils.info.CommandInfo;
 import dev.vansen.commandutils.permission.CommandPermission;
 import dev.vansen.inventoryutils.inventory.FairInventory;
@@ -35,12 +34,9 @@ public final class InvseeCommand implements Command {
                         .aliases("ic", "is"))
                 .argument(CommandArgument.of("player", new PlayerArgumentType("See the inventory of <player>", TextColor.fromHexString("#d4ffe4")))
                         .defaultExecute(context -> {
-                            context.throwAndRunIfNot(CommandWrapper::isPlayer, () -> {
-                                Messager.sender()
-                                        .who(context.sender())
-                                        .send("players_only");
-                                return;
-                            });
+                            Messager.sender()
+                                    .who(context.sender())
+                                    .player();
                             Player target = context.arg("player", Player.class);
                             if (target.getName().equals(context.player().getName())) {
                                 Messager.sender()

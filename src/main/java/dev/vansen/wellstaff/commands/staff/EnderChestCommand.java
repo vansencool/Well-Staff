@@ -33,11 +33,9 @@ public final class EnderChestCommand implements Command {
                 })
                 .argument(CommandArgument.of("player", new PlayerArgumentType("See the enderchest of <player>", TextColor.fromHexString("#d4ffe4")))
                         .defaultExecute(context -> {
-                            context.throwAndRunIfNot(CommandWrapper::isPlayer, () -> {
-                                Messager.sender()
-                                        .who(context.sender())
-                                        .send("players_only");
-                            });
+                            Messager.sender()
+                                    .who(context.sender())
+                                    .player();
                             context.player().openInventory(context.arg("player", Player.class).getEnderChest());
                         })), "enderchest");
     }

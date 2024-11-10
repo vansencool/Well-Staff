@@ -2,14 +2,14 @@ package dev.vansen.wellstaff.message.title;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
-import org.bukkit.entity.Entity;
+import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 
 public final class TitleSender {
 
-    public static void send(@NotNull Entity entity, @NotNull Component titleMessage, @NotNull Component subtitleMessage, double fadeIn, double stay, double fadeOut) {
+    public static void send(@NotNull CommandSender sender, @NotNull Component titleMessage, @NotNull Component subtitleMessage, double fadeIn, double stay, double fadeOut) {
         Title title = Title.title(
                 titleMessage,
                 subtitleMessage,
@@ -20,7 +20,7 @@ public final class TitleSender {
                 )
         );
 
-        entity.showTitle(title);
+        sender.showTitle(title);
     }
 
     public static Builder builder() {
@@ -28,15 +28,15 @@ public final class TitleSender {
     }
 
     public static class Builder {
-        private Entity entity;
+        private CommandSender sender;
         private Component titleMessage;
         private Component subtitleMessage;
         private double fadeIn;
         private double stay;
         private double fadeOut;
 
-        public Builder who(@NotNull Entity entity) {
-            this.entity = entity;
+        public Builder who(@NotNull CommandSender sender) {
+            this.sender = sender;
             return this;
         }
 
@@ -66,7 +66,7 @@ public final class TitleSender {
         }
 
         public void send() {
-            TitleSender.send(entity, titleMessage, subtitleMessage, fadeIn, stay, fadeOut);
+            TitleSender.send(sender, titleMessage, subtitleMessage, fadeIn, stay, fadeOut);
         }
     }
 }

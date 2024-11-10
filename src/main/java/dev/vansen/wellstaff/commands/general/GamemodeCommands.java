@@ -3,7 +3,6 @@ package dev.vansen.wellstaff.commands.general;
 import dev.vansen.commandutils.CommandUtils;
 import dev.vansen.commandutils.argument.Argument;
 import dev.vansen.commandutils.argument.CommandArgument;
-import dev.vansen.commandutils.command.CommandWrapper;
 import dev.vansen.commandutils.command.ExecutableSender;
 import dev.vansen.commandutils.info.CommandInfo;
 import dev.vansen.commandutils.permission.CommandPermission;
@@ -28,12 +27,9 @@ public class GamemodeCommands implements Command {
                                 .aliases("gm"))
                         .argument(CommandArgument.of(new Argument("gamemode", ArgumentTypes.gameMode()))
                                 .defaultExecute(context -> {
-                                    context.throwAndRunIfNot(CommandWrapper::isPlayer, () -> {
-                                        Messager.sender()
-                                                .who(context.sender())
-                                                .send("players_only");
-                                    });
-
+                                    Messager.sender()
+                                            .who(context.sender())
+                                            .player();
                                     PlayerUtils.player(context.player())
                                             .gameMode(context.argGameMode("gamemode"));
                                 })),

@@ -4,7 +4,6 @@ import com.mojang.brigadier.arguments.BoolArgumentType;
 import dev.vansen.commandutils.CommandUtils;
 import dev.vansen.commandutils.argument.Argument;
 import dev.vansen.commandutils.argument.CommandArgument;
-import dev.vansen.commandutils.command.CommandWrapper;
 import dev.vansen.commandutils.info.CommandInfo;
 import dev.vansen.commandutils.permission.CommandPermission;
 import dev.vansen.utility.annotations.Init;
@@ -24,11 +23,9 @@ public final class CommandSpyCommand implements Command {
                         .permission(CommandPermission.permission("wellstaff.commandspy"))
                         .aliases("cmdspy", "cspy"))
                 .defaultExecute(context -> {
-                    context.throwAndRunIfNot(CommandWrapper::isPlayer, () -> {
-                        Messager.sender()
-                                .who(context.sender())
-                                .send("players_only");
-                    });
+                    Messager.sender()
+                            .who(context.sender())
+                            .player();
                     if (CommandSpyValue.commandSpy.containsKey(context.player()) && CommandSpyValue.commandSpy.get(context.player())) {
                         CommandSpyValue.commandSpy.put(context.player(), false);
                         Messager.sender()
@@ -43,11 +40,9 @@ public final class CommandSpyCommand implements Command {
                 })
                 .argument(CommandArgument.of(new Argument("enable", BoolArgumentType.bool()))
                         .defaultExecute(context -> {
-                            context.throwAndRunIfNot(CommandWrapper::isPlayer, () -> {
-                                Messager.sender()
-                                        .who(context.player())
-                                        .send("players_only");
-                            });
+                            Messager.sender()
+                                    .who(context.sender())
+                                    .player();
                             CommandSpyValue.commandSpy.put(context.player(), context.argBoolean("enable"));
                             Messager.sender()
                                     .who(context.player())

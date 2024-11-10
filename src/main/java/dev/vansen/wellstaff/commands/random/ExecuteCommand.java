@@ -3,7 +3,6 @@ package dev.vansen.wellstaff.commands.random;
 import dev.vansen.commandutils.CommandUtils;
 import dev.vansen.commandutils.argument.Argument;
 import dev.vansen.commandutils.argument.CommandArgument;
-import dev.vansen.commandutils.command.CommandWrapper;
 import dev.vansen.commandutils.info.CommandInfo;
 import dev.vansen.commandutils.permission.CommandPermission;
 import dev.vansen.commandutils.subcommand.SubCommand;
@@ -31,16 +30,11 @@ public class ExecuteCommand implements Command {
                         .argument(CommandArgument.integer("amount")
                                 .argument(CommandArgument.of(new Argument("command", CommandArgumentType.command(3)))
                                         .defaultExecute(context -> {
-                                            context.throwAndRunIfNot(CommandWrapper::isPlayer, () -> {
-                                                Messager.sender()
-                                                        .who(context.sender())
-                                                        .send("consoles_only");
-                                            });
                                             for (int i = 0; i < context.argInt("amount"); i++) {
                                                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), context.argString("command"));
                                             }
                                             Messager.sender()
-                                                    .who(context.player())
+                                                    .who(context.sender())
                                                     .send("console_command_executed", "<command>", context.argString("command"), "<amount>", String.valueOf(context.argInt("amount")));
                                         }))))
                 .subCommand(SubCommand.of("player")
@@ -48,16 +42,11 @@ public class ExecuteCommand implements Command {
                                 .argument(CommandArgument.integer("amount")
                                         .argument(CommandArgument.of(new Argument("command", CommandArgumentType.command(4)))
                                                 .defaultExecute(context -> {
-                                                    context.throwAndRunIfNot(CommandWrapper::isPlayer, () -> {
-                                                        Messager.sender()
-                                                                .who(context.sender())
-                                                                .send("players_only");
-                                                    });
                                                     for (int i = 0; i < context.argInt("amount"); i++) {
                                                         context.arg("player", Player.class).performCommand(context.argString("command"));
                                                     }
                                                     Messager.sender()
-                                                            .who(context.player())
+                                                            .who(context.sender())
                                                             .send("player_command_executed", "<player>", context.arg("player", Player.class).getName(), "<command>", context.argString("command"), "<amount>", String.valueOf(context.argInt("amount")));
                                                 }))))), "execute");
     }

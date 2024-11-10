@@ -3,7 +3,6 @@ package dev.vansen.wellstaff.commands.random;
 import dev.vansen.commandutils.CommandUtils;
 import dev.vansen.commandutils.argument.Argument;
 import dev.vansen.commandutils.argument.CommandArgument;
-import dev.vansen.commandutils.command.CommandWrapper;
 import dev.vansen.commandutils.info.CommandInfo;
 import dev.vansen.commandutils.permission.CommandPermission;
 import dev.vansen.utility.annotations.Init;
@@ -28,14 +27,9 @@ public class SudoCommand implements Command {
                 .argument(CommandArgument.of(new Argument("player", new PlayerArgumentType("Sudo a command from <player>", TextColor.fromHexString("#d4ffe4"))))
                         .argument(CommandArgument.of(new Argument("command", CommandArgumentType.command(2)))
                                 .defaultExecute(context -> {
-                                    context.throwAndRunIfNot(CommandWrapper::isPlayer, () -> {
-                                        Messager.sender()
-                                                .who(context.sender())
-                                                .send("players_only");
-                                    });
                                     context.arg("player", Player.class).performCommand(context.argString("command"));
                                     Messager.sender()
-                                            .who(context.player())
+                                            .who(context.sender())
                                             .send("player_executed", "<player>", context.arg("player", Player.class).getName(), "<command>", context.argString("command"));
                                 }))), "sudo");
     }

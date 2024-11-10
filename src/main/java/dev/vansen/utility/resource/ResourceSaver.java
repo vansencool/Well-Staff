@@ -12,6 +12,9 @@ import java.util.zip.ZipFile;
 
 public final class ResourceSaver {
 
+    /**
+     * Save all resources to the data folder, if they don't already exist.
+     */
     public static void save() {
         try {
             String jarPath = Holder.get().getClass().getProtectionDomain().getCodeSource().getLocation().getPath();

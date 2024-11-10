@@ -18,6 +18,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * Players argument type.
+ * Better version of {@link StringArgumentType#string()} and other {@link io.papermc.paper.command.brigadier.argument.ArgumentTypes}
+ */
 @SuppressWarnings("all")
 public class PlayerArgumentType implements CustomArgumentType.Converted<Player, String> {
     private final @NotNull String tooltip;
@@ -40,17 +44,16 @@ public class PlayerArgumentType implements CustomArgumentType.Converted<Player, 
                     .text("Too long player name!"))), MessageComponentSerializer.message().serialize(Component
                     .text("Too long player name!")));
         }
-        if (Bukkit.getPlayer(nativeType) == null) {
+        if (Bukkit.getPlayerExact(nativeType) == null) {
             Message message = MessageComponentSerializer.message().serialize(Component.text("Invalid player ")
                     .append(Component.text(
                             nativeType + "!"
-                    ))
-                    .color(TextColor.fromHexString("#ff576d")));
+                    )));
 
             throw new CommandSyntaxException(new SimpleCommandExceptionType(message), message);
         }
 
-        return Bukkit.getPlayer(nativeType);
+        return Bukkit.getPlayerExact(nativeType);
     }
 
     @Override

@@ -3,7 +3,6 @@ package dev.vansen.wellstaff.commands.staff;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import dev.vansen.commandutils.CommandUtils;
 import dev.vansen.commandutils.argument.CommandArgument;
-import dev.vansen.commandutils.command.CommandWrapper;
 import dev.vansen.commandutils.info.CommandInfo;
 import dev.vansen.commandutils.permission.CommandPermission;
 import dev.vansen.configutils.Configer;
@@ -35,11 +34,9 @@ public final class LogsCommand implements Command {
                         .permission(CommandPermission.permission("wellstaff.logs")))
                 .argument(CommandArgument.string("player")
                         .defaultExecute(context -> {
-                            context.throwAndRunIfNot(CommandWrapper::isPlayer, () -> {
-                                Messager.sender()
-                                        .who(context.player())
-                                        .send("players_only");
-                            });
+                            Messager.sender()
+                                    .who(context.sender())
+                                    .player();
                             OfflinePlayer target = Bukkit.getOfflinePlayer(StringArgumentType.getString(context.context(), "player"));
                             if (!new File(Holder.get().getDataFolder() + "/logs/" + target.getUniqueId() + ".yml").exists()) {
                                 Messager.sender()

@@ -19,6 +19,9 @@ public final class Eventer {
 
     private static final Map<Class<?>, List<Subscriber>> subscribers = new HashMap<>();
 
+    /**
+     * Registers an event listener to the event bus with the given priority.
+     */
     public void register(@NotNull EventListener listener, @NotNull EventPriority priority) {
         Arrays.stream(listener.getClass().getDeclaredMethods())
                 .filter(method -> method.isAnnotationPresent(Subscribe.class) && method.getParameterCount() == 1)
@@ -26,20 +29,30 @@ public final class Eventer {
                     Class<?> eventType = method.getParameterTypes()[0];
                     subscribers.computeIfAbsent(eventType, k -> new ArrayList<>())
                             .add(new Subscriber(listener, method, priority));
-                    subscribers.get(eventType).sort(Comparator.comparingInt(Subscriber::getPriority));
+                    subscribers.get(eventType).sort(Comparator.comparingInt(Subscriber::getPriority).reversed());
                 });
     }
 
+    /**
+     * Registers an event listener to the event bus with normal priority.
+     */
     public void register(@NotNull EventListener listener) {
         register(listener, EventPriority.NORMAL);
     }
 
+    /**
+     * Unregisters an event listener from the event bus.
+     */
     public void unregister(@NotNull EventListener listener) {
         subscribers.values().forEach(subscriberList ->
                 subscriberList.removeIf(subscriber -> subscriber.listener.equals(listener))
         );
     }
 
+    /**
+     * Posts an event to the event bus.
+     */
+    @SuppressWarnings("DataFlowIssue") // why would it be null?
     public void post(@NotNull Event event) {
         List<Subscriber> subscriberList = getSubscriberList(event.getClass());
         JavaUtils.taskIfNotNull(subscriberList, () -> subscriberList.stream()
@@ -53,7 +66,7 @@ public final class Eventer {
                 }));
     }
 
-    private List<Subscriber> getSubscriberList(Class<?> eventClass) {
+    private List<Subscriber> getSubscriberList(@NotNull Class<?> eventClass) {
         while (eventClass != null) {
             List<Subscriber> subscriberList = subscribers.get(eventClass);
             if (subscriberList != null) {

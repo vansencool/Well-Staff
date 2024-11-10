@@ -71,7 +71,7 @@ public abstract class WellDevelopment extends JavaPlugin {
         InventoryUtils.init(this);
         CommandAPI.set(this);
         Holder.set(this);
-        AnnotationImpl.process();
+        AnnotationImpl.process(); // preprocess annotations before start
         start();
     }
 

@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/*
+/**
  * This annotation marks a subscriber method to be invoked asynchronously.
  * <p>
  * Note that this annotation is not recommended in most cases, as the event
