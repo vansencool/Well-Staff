@@ -37,7 +37,7 @@ public final class Replacer {
         this.wholeWord = wholeWord;
     }
 
-    /*
+    /**
      * Creates a new Replacer instance with simplified configuration.
      *
      * @return a new ReplacerBuilder instance
@@ -46,7 +46,7 @@ public final class Replacer {
         return new ReplacerBuilder();
     }
 
-    /*
+    /**
      * Replaces text in a string with the specified features.
      *
      * @param input the string to process
@@ -118,7 +118,7 @@ public final class Replacer {
         private String surroundWith;
         private boolean wholeWord;
 
-        /*
+        /**
          * Sets the target string to find.
          *
          * @param target the string to find
@@ -130,7 +130,7 @@ public final class Replacer {
             return this;
         }
 
-        /*
+        /**
          * Sets the string to replace with.
          *
          * @param replacement the string to replace with
@@ -142,7 +142,7 @@ public final class Replacer {
             return this;
         }
 
-        /*
+        /**
          * Configures the replacement to be case-insensitive.
          *
          * @return the builder instance
@@ -153,7 +153,7 @@ public final class Replacer {
             return this;
         }
 
-        /*
+        /**
          * Configures to replace all occurrences.
          *
          * @return the builder instance
@@ -164,7 +164,7 @@ public final class Replacer {
             return this;
         }
 
-        /*
+        /**
          * Configures to trim leading and trailing whitespace.
          *
          * @return the builder instance
@@ -175,7 +175,7 @@ public final class Replacer {
             return this;
         }
 
-        /*
+        /**
          * Configures to remove lines with only whitespace.
          *
          * @return the builder instance
@@ -186,7 +186,7 @@ public final class Replacer {
             return this;
         }
 
-        /*
+        /**
          * Configures the maximum number of replacements to make.
          *
          * @param limit the maximum number of replacements; 0 means unlimited
@@ -198,7 +198,7 @@ public final class Replacer {
             return this;
         }
 
-        /*
+        /**
          * Configures to escape special characters in the target string.
          *
          * @return the builder instance
@@ -209,7 +209,7 @@ public final class Replacer {
             return this;
         }
 
-        /*
+        /**
          * Configures to replace only if the target string is at the beginning of a word.
          *
          * @return the builder instance
@@ -220,7 +220,7 @@ public final class Replacer {
             return this;
         }
 
-        /*
+        /**
          * Configures to replace only if the target string is at the end of a word.
          *
          * @return the builder instance
@@ -231,7 +231,7 @@ public final class Replacer {
             return this;
         }
 
-        /*
+        /**
          * Configures to surround each occurrence with a specified string.
          *
          * @param surroundWith the string to surround each occurrence with
@@ -243,7 +243,7 @@ public final class Replacer {
             return this;
         }
 
-        /*
+        /**
          * Configures to replace only whole word occurrences of the target string.
          *
          * @return the builder instance
@@ -253,7 +253,7 @@ public final class Replacer {
             return this;
         }
 
-        /*
+        /**
          * Builds the Replacer instance.
          *
          * @return the Replacer instance

@@ -6,6 +6,7 @@ import dev.vansen.commandutils.argument.CommandArgument;
 import dev.vansen.commandutils.info.CommandInfo;
 import dev.vansen.commandutils.permission.CommandPermission;
 import dev.vansen.commandutils.subcommand.SubCommand;
+import dev.vansen.libs.fastapi.text.Replacer;
 import dev.vansen.utility.annotations.Init;
 import dev.vansen.utility.command.Command;
 import dev.vansen.utility.command.CommandRegistrar;
@@ -31,7 +32,22 @@ public class ExecuteCommand implements Command {
                                 .argument(CommandArgument.of(new Argument("command", CommandArgumentType.command(3)))
                                         .defaultExecute(context -> {
                                             for (int i = 0; i < context.argInt("amount"); i++) {
-                                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), context.argString("command"));
+                                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Replacer.builder()
+                                                        .target("<player>")
+                                                        .replacement(context.player().getName())
+                                                        .all()
+                                                        .build()
+                                                        .replace(Replacer.builder()
+                                                                .target("<amount>")
+                                                                .replacement(String.valueOf(context.argInt("amount")))
+                                                                .all()
+                                                                .build()
+                                                                .replace(Replacer.builder()
+                                                                        .target("<command>")
+                                                                        .replacement(context.argString("command"))
+                                                                        .all()
+                                                                        .build()
+                                                                        .replace(context.argString("command")))));
                                             }
                                             Messager.sender()
                                                     .who(context.sender())
@@ -43,7 +59,27 @@ public class ExecuteCommand implements Command {
                                         .argument(CommandArgument.of(new Argument("command", CommandArgumentType.command(4)))
                                                 .defaultExecute(context -> {
                                                     for (int i = 0; i < context.argInt("amount"); i++) {
-                                                        context.arg("player", Player.class).performCommand(context.argString("command"));
+                                                        context.arg("player", Player.class).performCommand(Replacer.builder()
+                                                                .target("<target>")
+                                                                .replacement(context.arg("player", Player.class).getName())
+                                                                .all()
+                                                                .build()
+                                                                .replace(Replacer.builder()
+                                                                        .target("<player>")
+                                                                        .replacement(context.player().getName())
+                                                                        .all()
+                                                                        .build()
+                                                                        .replace(Replacer.builder()
+                                                                                .target("<amount>")
+                                                                                .replacement(String.valueOf(context.argInt("amount")))
+                                                                                .all()
+                                                                                .build()
+                                                                                .replace(Replacer.builder()
+                                                                                        .target("<command>")
+                                                                                        .replacement(context.argString("command"))
+                                                                                        .all()
+                                                                                        .build()
+                                                                                        .replace(context.argString("command"))))));
                                                     }
                                                     Messager.sender()
                                                             .who(context.sender())

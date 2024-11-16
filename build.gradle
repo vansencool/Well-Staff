@@ -13,7 +13,7 @@ ext {
     schedulerUtils = "1.0.4"
     configUtils = "1.0.2"
     inventoryUtils = "1.0.7"
-    commandUtils = "1.1.4"
+    commandUtils = "1.1.6"
 }
 
 repositories {
