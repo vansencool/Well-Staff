@@ -61,7 +61,7 @@ public final class ConfigItem {
                 .map(e -> new Enchanted(NamespacedKey.fromString(e.split(":")[0]), Integer.parseInt(e.split(":")[1])))
                 .forEach(e -> JavaUtils.taskIfNotNull(RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(e.enchantment()), () -> item.enchant(RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(e.enchantment()), e.level()))));
 
-        JavaUtils.taskIfFalse(JavaUtils.isNullOrEmpty(config.getStringList("path + .flags")), () -> config.getStringList(path + ".flags").stream()
+        JavaUtils.taskIfFalse(JavaUtils.isNullOrEmpty(config.getStringList(path + ".flags")), () -> config.getStringList(path + ".flags").stream()
                 .map(e -> ItemFlag.valueOf(e.toUpperCase()))
                 .forEach(item::itemFlags));
         return item.build();

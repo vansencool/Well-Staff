@@ -29,7 +29,7 @@ public final class PlayerUtils {
 
     @SuppressWarnings("ConstantConditions")
     public void heal() {
-        JavaUtils.taskIfNotNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), () -> player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()));
+        JavaUtils.taskIfNotNull(player.getAttribute(Attribute.MAX_HEALTH).getValue(), () -> player.setHealth(player.getAttribute(Attribute.MAX_HEALTH).getValue()));
     }
 
     public void fly() {
@@ -55,7 +55,7 @@ public final class PlayerUtils {
         player.setGameMode(gameMode);
         Messager.sender()
                 .who(player)
-                .send("game_mode_set", "<game_mode>", gameMode.name().substring(0, 1).toUpperCase() + gameMode.name().substring(1).toLowerCase());
+                .send("game_mode_set", "<game_mode>", gameMode.name().charAt(0) + gameMode.name().substring(1).toLowerCase());
     }
 
     public void startMonitoring() {
@@ -121,7 +121,7 @@ public final class PlayerUtils {
     }
 
     private float progress() {
-        return (float) Math.min(1.0, Math.max(0.1, (Bukkit.getAverageTickTime() / 60.0))); // some garbage math to make it look good :D
+        return (float) Math.min(1.0, Math.max(0.1, (Bukkit.getAverageTickTime() / 60.0))); // 0.1 - 1.0
     }
 
     private int statusColor() {

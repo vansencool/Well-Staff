@@ -22,8 +22,7 @@ public class SudoCommand implements Command {
     public void register() {
         CommandRegistrar.register(CommandUtils.command("sudo")
                 .info(CommandInfo.info()
-                        .permission(CommandPermission.OP)
-                        .aliases("s"))
+                        .permission(CommandPermission.OP))
                 .argument(CommandArgument.of(new Argument("player", new PlayerArgumentType("Sudo a command from <player>", TextColor.fromHexString("#d4ffe4"))))
                         .argument(CommandArgument.of(new Argument("command", CommandArgumentType.command(2)))
                                 .defaultExecute(context -> {

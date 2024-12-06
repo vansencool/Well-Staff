@@ -4,10 +4,8 @@ import com.mojang.brigadier.arguments.BoolArgumentType;
 import dev.vansen.commandutils.CommandUtils;
 import dev.vansen.commandutils.argument.Argument;
 import dev.vansen.commandutils.argument.CommandArgument;
-import dev.vansen.commandutils.command.ExecutableSender;
 import dev.vansen.commandutils.info.CommandInfo;
 import dev.vansen.commandutils.permission.CommandPermission;
-import dev.vansen.commandutils.sender.SenderTypes;
 import dev.vansen.scheduleutils.SchedulerUtils;
 import dev.vansen.utility.annotations.Init;
 import dev.vansen.utility.command.Command;
@@ -26,6 +24,9 @@ public class ServerMonitorCommand implements Command {
                         .permission(CommandPermission.permission("wellstaff.servermonitor"))
                         .aliases("sm"))
                 .defaultExecute(context -> {
+                    Messager.sender()
+                            .who(context.sender())
+                            .player();
                     if (SchedulerUtils.cancel().exists(context.player().getUniqueId() + "_monitoring")) {
                         PlayerUtils.player(context.player())
                                 .stopMonitoring();
@@ -33,7 +34,7 @@ public class ServerMonitorCommand implements Command {
                         PlayerUtils.player(context.player())
                                 .startMonitoring();
                     }
-                }, ExecutableSender.types(SenderTypes.PLAYER))
+                })
                 .argument(CommandArgument.of(new Argument("enable", BoolArgumentType.bool()))
                         .defaultExecute(context -> {
                             Messager.sender()

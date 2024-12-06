@@ -26,5 +26,19 @@ servermonitor:
   enabled: true
 executeforrandom:
   enabled: true
+executeas:
+  enabled: true
 sudo:
+  enabled: true
+executewithin:
+  enabled: true
+sayfrom:
+  enabled: true
+executeforall:
+  enabled: true
+executeforworld:
+  enabled: true
+executetillfor:
+  enabled: true
+executeafter:
   enabled: true

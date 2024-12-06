@@ -85,11 +85,52 @@ Staff:
       types:
         - action_bar
       msg: "<color:#78ff9c>Player <player> executed <command>"
+      sounds:
+        send: true
+        sound: "ENTITY_EXPERIENCE_ORB_PICKUP"
+        volume: 1.0
+        pitch: 1.0
+    chain_executed:
+      send: true
+      types:
+        - action_bar
+      msg: "<color:#78ff9c>Executed commands <commands> <amount> times (chained: <chained>)" # <chained> is true or false
+    all_players_executed:
+      send: true
+      types:
+        - action_bar
+      msg: "<color:#78ff9c>All players executed <command> <amount> times (total of <player_count> players)"
+    players_within_executed:
+      send: true
+      types:
+        - action_bar
+        - message
+      msg: "<color:#78ff9c>Players within <radius> executed <command> <amount> times (total of <player_count> players)"
+      sounds:
+        send: true
+        sound: "ENTITY_EXPERIENCE_ORB_PICKUP"
+        volume: 1.0
+        pitch: 1.0
+    command_finished:
+      send: true
+      types:
+        - action_bar
+      msg: "<color:#78ff9c>Command time finished!"
     console_command_executed:
       send: true
       types:
         - action_bar
       msg: "<color:#78ff9c>Console executed <command> <amount> times"
+      sounds:
+        send: true
+        sound: "ENTITY_EXPERIENCE_ORB_PICKUP"
+        volume: 1.0
+        pitch: 1.0
+    not_valid_time:
+      send: true
+      types:
+        - action_bar
+      msg: "<color:#ff576d><time> is not a valid time!"
     player_command_executed:
       send: true
       types:

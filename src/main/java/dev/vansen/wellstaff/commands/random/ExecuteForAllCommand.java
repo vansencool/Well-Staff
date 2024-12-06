@@ -10,29 +10,31 @@ import dev.vansen.utility.command.CommandRegistrar;
 import dev.vansen.utility.command.arguments.CommandArgumentType;
 import dev.vansen.wellstaff.message.Messager;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
-import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 @SuppressWarnings("all")
-public class ExecuteForRandomCommand implements Command {
+public class ExecuteForAllCommand implements Command {
 
     @Override
     @Init
     public void register() {
-        CommandRegistrar.register(CommandUtils.command("executeforrandom")
+        CommandRegistrar.register(CommandUtils.command("executeforall")
                 .info(CommandInfo.info()
                         .permission(CommandPermission.OP)
-                        .aliases("efr"))
+                        .aliases("efa"))
                 .argument(CommandArgument.integer("amount", 1))
                 .argument(CommandArgument.of("command", CommandArgumentType.command(2))
                         .defaultExecute(context -> {
-                            int random = new Random().nextInt(Bukkit.getOnlinePlayers().size());
-                            IntStream.range(0, context.argInt("amount")).forEach(i -> ((Player) Bukkit.getOnlinePlayers().toArray()[random]).performCommand(context.argString("command")));
+                            AtomicInteger playerCount = new AtomicInteger();
+                            Bukkit.getOnlinePlayers().forEach(p -> {
+                                IntStream.range(0, context.argInt("amount")).forEach(i -> p.performCommand(context.argString("command")));
+                                playerCount.getAndIncrement();
+                            });
                             Messager.sender()
                                     .who(context.sender())
-                                    .send("player_executed", "<player>", ((Player) Bukkit.getOnlinePlayers().toArray()[random]).getName(), "<command>", context.argString("command"));
-                        })), "executeforrandom");
+                                    .send("all_players_executed", "<amount>", String.valueOf(context.argInt("amount")), "<player_count>", String.valueOf(playerCount.get()), "<command>", context.argString("command"));
+                        })), "executeforall");
     }
 }

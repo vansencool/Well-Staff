@@ -3,6 +3,7 @@ package dev.vansen.wellstaff.commands.general;
 import dev.vansen.commandutils.CommandUtils;
 import dev.vansen.commandutils.argument.Argument;
 import dev.vansen.commandutils.argument.CommandArgument;
+import dev.vansen.commandutils.command.CheckType;
 import dev.vansen.commandutils.command.ExecutableSender;
 import dev.vansen.commandutils.info.CommandInfo;
 import dev.vansen.commandutils.permission.CommandPermission;
@@ -32,6 +33,7 @@ public class GamemodeCommands implements Command {
                                             .player();
                                     PlayerUtils.player(context.player())
                                             .gameMode(context.argGameMode("gamemode"));
+                                    context.check(CheckType.PLAYER);
                                 })),
                 "gamemode");
 

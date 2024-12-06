@@ -2,29 +2,27 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     id 'java'
-    id 'com.gradleup.shadow' version '8.3.0'
-    id "io.papermc.paperweight.userdev" version "1.7.3"
+    id 'com.gradleup.shadow' version '8.3.5'
 }
 
 group = 'dev.vansen'
 version = '1.0.0'
 
 ext {
+    paperVersion = "1.21.3"
     schedulerUtils = "1.0.4"
     configUtils = "1.0.2"
-    inventoryUtils = "1.0.7"
-    commandUtils = "1.1.6"
+    inventoryUtils = "1.0.9"
+    commandUtils = "1.2.0"
 }
 
 repositories {
-    mavenCentral()
     maven { url "https://repo.papermc.io/repository/maven-public/" }
-    gradlePluginPortal()
-    maven { url 'https://jitpack.io' }
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
-    paperweight.paperDevBundle("1.21.1-R0.1-SNAPSHOT")
+    compileOnly "io.papermc.paper:paper-api:$paperVersion-R0.1-SNAPSHOT"
     implementation "com.github.vansencool:SchedulerUtils:$schedulerUtils"
     implementation "com.github.vansencool:ConfigUtils:$configUtils"
     implementation "com.github.vansencool:InventoryUtils:$inventoryUtils"
@@ -61,13 +59,11 @@ tasks.named('shadowJar', ShadowJar) {
     relocate 'dev.vansen.inventoryutils', 'dev.vansen.libs.inventoryutils'
     relocate 'dev.vansen.commandutils', 'dev.vansen.libs.commandutils'
     exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
-    destinationDirectory.set(file "D:\\vansen\\Test servers\\1.21\\plugins")
-}
-
-reobfJar {
-    dependsOn shadowJar
+    minimize()
+    def outputDir = System.getenv("BUILD_OUTPUT_DIR") ?: "build/libs"
+    destinationDirectory.set(file(outputDir))
 }
 
 tasks.build {
-    dependsOn(tasks.reobfJar)
+    dependsOn(tasks.shadowJar)
 }
